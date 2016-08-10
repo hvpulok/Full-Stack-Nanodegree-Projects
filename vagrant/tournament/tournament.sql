@@ -10,4 +10,11 @@ CREATE DATABASE tournament;
 -- You can write comments in this file by starting them with two dashes, like
 -- these lines here.
 
+-- create players table
+DROP TABLE IF EXISTS players;
+CREATE TABLE players(                                                                                                                             
+        playerID SERIAL PRIMARY KEY NOT NULL,                                                                                                             
+        NAME TEXT NOT NULL);
+
+SELECT * FROM players;
 
