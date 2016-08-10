@@ -1,3 +1,7 @@
+-- code to create a tournament database
+DROP DATABASE IF EXISTS tournament;
+CREATE DATABASE tournament;
+
 -- Table definitions for the tournament project.
 --
 -- Put your SQL 'create table' statements in this file; also 'create view'
