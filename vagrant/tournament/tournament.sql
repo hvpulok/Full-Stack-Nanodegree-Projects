@@ -16,5 +16,14 @@ CREATE TABLE players(
         playerID SERIAL PRIMARY KEY NOT NULL,                                                                                                             
         NAME TEXT NOT NULL);
 
+-- create matches table
+DROP TABLE IF EXISTS matches;
+CREATE TABLE matches(                                                                                                                             
+        matchID SERIAL PRIMARY KEY NOT NULL,                                                                                                             
+        winner INT NOT NULL REFERENCES players(playerID),
+        loser INT NOT NULL REFERENCES players(playerID));
+
+
 SELECT * FROM players;
+SELECT * FROM matches;
 
