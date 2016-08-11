@@ -17,7 +17,10 @@ def GetAllPosts():
               for row in c.fetchall())
 
     DB.close()
+    print posts
     return posts
+
+GetAllPosts()
 
 ## Add a post to the database.
 def AddPost(content):

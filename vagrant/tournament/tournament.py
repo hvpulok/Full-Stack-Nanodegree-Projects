@@ -75,7 +75,59 @@ def playerStandings():
         wins: the number of matches the player has won
         matches: the number of matches the player has played
     """
+    DB = connect()
+    c = DB.cursor()
+    query = '''
+    -- Code to get winner players id name and times won  
+    CREATE VIEW winnerTable AS 
+    SELECT players.playerid, players.name, COUNT(players.playerid) AS number 
+    FROM players, matches 
+    WHERE players.playerid = matches.winner
+    GROUP BY players.playerid, players.name 
+    ORDER BY number DESC;
 
+    -- Code to get loser players id name and times lost
+    CREATE VIEW loserTable AS 
+    SELECT players.playerid, players.name, COUNT(players.playerid) AS number 
+    FROM players, matches 
+    WHERE players.playerid = matches.loser 
+    GROUP BY players.playerid, players.name 
+    ORDER BY number DESC;
+
+    -- Code to get total number of matches
+    -- combining winnerTable and loserTable
+    CREATE VIEW total_match_table AS 
+        SELECT playerid, name, sum(number) AS total_matches 
+        FROM (SELECT playerid, name, number FROM winnerTable 
+                UNION ALL 
+                SELECT playerid, name, number FROM loserTable) AS players
+            GROUP BY playerid, name
+            ORDER BY playerid;
+    
+    -- final code to get playerID | name | Win Count | Total Match count
+    -- by combining total_match_table and winnerTable
+    CREATE VIEW summury_table AS 
+        SELECT total_match_table.playerid, total_match_table.name, total_match_table.total_matches, winnerTable.number AS win_count
+            FROM total_match_table
+            LEFT JOIN winnerTable
+            ON total_match_table.playerid = winnerTable.playerid;
+
+    SELECT players.playerid, players.name, summury_table.win_count, summury_table.total_matches
+        FROM players
+        LEFT JOIN summury_table
+        ON players.playerid = summury_table.playerid;
+
+    '''
+
+    c.execute(query)
+    results = c.fetchall()   
+    DB.close()
+    return results
+
+# results = playerStandings()
+# for item in results:
+#     print item
+#     print "\n"
 
 def reportMatch(winner, loser):
     """Records the outcome of a single match between two players.
