@@ -133,10 +133,10 @@ def playerStandings():
     DB.close()
     return results
 
-results = playerStandings()
-for item in results:
-    print item
-    print "\n"
+# results = playerStandings()
+# for item in results:
+#     print item
+#     print "\n"
 
 def reportMatch(winner, loser):
     """Records the outcome of a single match between two players.
@@ -145,8 +145,19 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
- 
- 
+    DB = connect()
+    c = DB.cursor()
+    # c.execute("INSERT INTO posts (content) VALUES (%s) ", (bleach.clean(content),))
+    query = "INSERT INTO matches (winner, loser) VALUES(%s, %s);" %(winner, loser)
+    # print query
+    c.execute(query)
+    DB.commit()
+    DB.close()
+
+# reportMatch(1, 2)
+
+
+
 def swissPairings():
     """Returns a list of pairs of players for the next round of a match.
   

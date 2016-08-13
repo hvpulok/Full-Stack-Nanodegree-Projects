@@ -76,7 +76,8 @@ def testReportMatches():
     deleteMatches()
     deletePlayers()
     registerPlayer("Bruno Walton")
-    registerPlayer("Boots O'Neal")
+    # registerPlayer("Boots O'Neal")
+    registerPlayer("Boots ONeal")
     registerPlayer("Cathy Burton")
     registerPlayer("Diane Grant")
     standings = playerStandings()
@@ -150,6 +151,6 @@ def testPairings():
 if __name__ == '__main__':
     testCount()
     testStandingsBeforeMatches()
-    # testReportMatches()
+    testReportMatches()
     # testPairings()
     print "Success!  All tests pass!"

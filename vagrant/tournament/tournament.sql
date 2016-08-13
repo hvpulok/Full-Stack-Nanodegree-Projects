@@ -46,8 +46,8 @@ INSERT INTO matches (winner, loser) VALUES(2, 4);
 INSERT INTO matches (winner, loser) VALUES(6, 8);
 
 
--- SELECT * FROM players;
-SELECT * FROM matches;
+SELECT * FROM players;
+-- SELECT * FROM matches;
 
 -- DELETE FROM players;
 -- DELETE FROM matches;
@@ -123,7 +123,7 @@ CREATE VIEW player_standings AS
         LEFT JOIN summury_table
         ON players.playerid = summury_table.playerid;
 
-SELECT * FROM player_standings;
+-- SELECT * FROM player_standings;
 
 DROP VIEW IF EXISTS player_standings CASCADE;
 DROP VIEW IF EXISTS summury_table;
