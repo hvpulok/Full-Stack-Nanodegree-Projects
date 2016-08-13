@@ -46,7 +46,7 @@ INSERT INTO matches (winner, loser) VALUES(2, 4);
 INSERT INTO matches (winner, loser) VALUES(6, 8);
 
 
-SELECT * FROM players;
+-- SELECT * FROM players;
 -- SELECT * FROM matches;
 
 -- DELETE FROM players;
@@ -123,9 +123,38 @@ CREATE VIEW player_standings AS
         LEFT JOIN summury_table
         ON players.playerid = summury_table.playerid;
 
--- SELECT * FROM player_standings;
+-- code to create a player group based on their standings: odd number standings    
+CREATE VIEW player_group_odd AS 
+    SELECT ROW_NUMBER() OVER(ORDER BY win_count DESC) AS serial_no, id1, name1, win_count, standings FROM( 
+    SELECT playerid AS id1, name as name1, win_count, ROW_NUMBER() OVER(ORDER BY win_count DESC) AS standings 
+    FROM player_standings
+    ) d where (standings % 2) = 1;
 
-DROP VIEW IF EXISTS player_standings CASCADE;
+-- code to create a player group based on their standings: Even number standings    
+CREATE VIEW player_group_even AS 
+    SELECT ROW_NUMBER() OVER(ORDER BY win_count DESC) AS serial_no, id2, name2, win_count, standings FROM( 
+    SELECT playerid AS id2, name as name2, win_count, ROW_NUMBER() OVER(ORDER BY win_count DESC) AS standings 
+    FROM player_standings
+    ) d where (standings % 2) = 0;
+
+-- code to create pairs combining odd group and even group
+CREATE VIEW swiss_pairs AS
+    SELECT player_group_odd.id1, player_group_odd.name1, player_group_even.id2, player_group_even.name2
+        FROM player_group_odd, player_group_even
+        WHERE player_group_odd.serial_no = player_group_even.serial_no;
+
+
+SELECT * FROM player_standings;
+SELECT * FROM player_group_odd;
+SELECT * FROM player_group_even;
+
+-- code to retrieve swiss pairs
+SELECT * FROM swiss_pairs;
+
+DROP VIEW IF EXISTS swiss_pairs;
+DROP VIEW IF EXISTS player_group_even;
+DROP VIEW IF EXISTS player_group_odd;
+DROP VIEW IF EXISTS player_standings;
 DROP VIEW IF EXISTS summury_table;
 DROP VIEW IF EXISTS total_match_table;
 DROP VIEW IF EXISTS winnerTable;
