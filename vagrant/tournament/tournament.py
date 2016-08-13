@@ -112,16 +112,19 @@ def playerStandings():
             LEFT JOIN winnerTable
             ON total_match_table.playerid = winnerTable.playerid;
 
-    SELECT players.playerid, players.name,
-        CASE summury_table.win_count WHEN summury_table.win_count THEN summury_table.win_count
-            ELSE 0
-            END AS win_count,    
-        CASE summury_table.total_matches WHEN summury_table.total_matches THEN summury_table.total_matches
-            ELSE 0
-            END AS total_matches
-        FROM players
-        LEFT JOIN summury_table
-        ON players.playerid = summury_table.playerid;
+    CREATE VIEW player_standings AS 
+        SELECT players.playerid, players.name,
+            CASE summury_table.win_count WHEN summury_table.win_count THEN summury_table.win_count
+                ELSE 0
+                END AS win_count,    
+            CASE summury_table.total_matches WHEN summury_table.total_matches THEN summury_table.total_matches
+                ELSE 0
+                END AS total_matches
+            FROM players
+            LEFT JOIN summury_table
+            ON players.playerid = summury_table.playerid;
+
+    SELECT * FROM player_standings;
 
     '''
 
@@ -130,10 +133,10 @@ def playerStandings():
     DB.close()
     return results
 
-# results = playerStandings()
-# for item in results:
-#     print item
-#     print "\n"
+results = playerStandings()
+for item in results:
+    print item
+    print "\n"
 
 def reportMatch(winner, loser):
     """Records the outcome of a single match between two players.

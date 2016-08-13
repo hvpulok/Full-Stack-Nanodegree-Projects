@@ -22,32 +22,32 @@ CREATE TABLE matches(
 
 INSERT INTO players (name) VALUES('Pulok');
 INSERT INTO players (name) VALUES('Anika');
--- INSERT INTO players (name) VALUES('Akib');
--- INSERT INTO players (name) VALUES('Rajib');
--- INSERT INTO players (name) VALUES('Tony');
--- INSERT INTO players (name) VALUES('Mike');
--- INSERT INTO players (name) VALUES('Sara');
--- INSERT INTO players (name) VALUES('Jeny');
+INSERT INTO players (name) VALUES('Akib');
+INSERT INTO players (name) VALUES('Rajib');
+INSERT INTO players (name) VALUES('Tony');
+INSERT INTO players (name) VALUES('Mike');
+INSERT INTO players (name) VALUES('Sara');
+INSERT INTO players (name) VALUES('Jeny');
 
 
 -- sample matches data
 -- ==========================
 
--- INSERT INTO matches (winner, loser) VALUES(1, 2);
--- INSERT INTO matches (winner, loser) VALUES(3, 4);
--- INSERT INTO matches (winner, loser) VALUES(5, 6);
--- INSERT INTO matches (winner, loser) VALUES(7, 8);
+INSERT INTO matches (winner, loser) VALUES(1, 2);
+INSERT INTO matches (winner, loser) VALUES(3, 4);
+INSERT INTO matches (winner, loser) VALUES(5, 6);
+INSERT INTO matches (winner, loser) VALUES(7, 8);
 
 -- 2nd round
 
--- INSERT INTO matches (winner, loser) VALUES(1, 3);
--- INSERT INTO matches (winner, loser) VALUES(5, 7);
--- INSERT INTO matches (winner, loser) VALUES(2, 4);
--- INSERT INTO matches (winner, loser) VALUES(6, 8);
+INSERT INTO matches (winner, loser) VALUES(1, 3);
+INSERT INTO matches (winner, loser) VALUES(5, 7);
+INSERT INTO matches (winner, loser) VALUES(2, 4);
+INSERT INTO matches (winner, loser) VALUES(6, 8);
 
 
 -- SELECT * FROM players;
--- SELECT * FROM matches;
+SELECT * FROM matches;
 
 -- DELETE FROM players;
 -- DELETE FROM matches;
@@ -66,8 +66,8 @@ INSERT INTO players (name) VALUES('Anika');
     -- """
 -- Code to get winner players id name and times won
 
-SELECT * FROM players;
-SELECT * FROM matches;
+-- SELECT * FROM players;
+-- SELECT * FROM matches;
 
 
 CREATE VIEW winnerTable AS 
@@ -77,7 +77,7 @@ CREATE VIEW winnerTable AS
     GROUP BY players.playerid, players.name 
     ORDER BY number DESC;
 
-SELECT * FROM winnerTable;
+-- SELECT * FROM winnerTable;
 
 -- Code to get loser players id name and times lost
 CREATE VIEW loserTable AS 
@@ -87,7 +87,7 @@ CREATE VIEW loserTable AS
     GROUP BY players.playerid, players.name 
     ORDER BY number DESC;
 
-SELECT * FROM loserTable;
+-- SELECT * FROM loserTable;
 
 -- Code to get total number of matches
 -- combining winnerTable and loserTable
@@ -99,7 +99,7 @@ CREATE VIEW total_match_table AS
         GROUP BY playerid, name
         ORDER BY playerid;
 
-SELECT * FROM total_match_table;
+-- SELECT * FROM total_match_table;
 
 -- final code to get playerID | name | Win Count | Total Match count
 -- by combining total_match_table and winnerTable
@@ -111,18 +111,21 @@ CREATE VIEW summury_table AS
         ON total_match_table.playerid = winnerTable.playerid;
 
 
-SELECT players.playerid, players.name,
-    CASE summury_table.win_count WHEN summury_table.win_count THEN summury_table.win_count
-        ELSE 0
-        END AS win_count,    
-    CASE summury_table.total_matches WHEN summury_table.total_matches THEN summury_table.total_matches
-        ELSE 0
-        END AS total_matches
-    FROM players
-    LEFT JOIN summury_table
-    ON players.playerid = summury_table.playerid;
+CREATE VIEW player_standings AS 
+    SELECT players.playerid, players.name,
+        CASE summury_table.win_count WHEN summury_table.win_count THEN summury_table.win_count
+            ELSE 0
+            END AS win_count,    
+        CASE summury_table.total_matches WHEN summury_table.total_matches THEN summury_table.total_matches
+            ELSE 0
+            END AS total_matches
+        FROM players
+        LEFT JOIN summury_table
+        ON players.playerid = summury_table.playerid;
 
+SELECT * FROM player_standings;
 
+DROP VIEW IF EXISTS player_standings CASCADE;
 DROP VIEW IF EXISTS summury_table;
 DROP VIEW IF EXISTS total_match_table;
 DROP VIEW IF EXISTS winnerTable;
