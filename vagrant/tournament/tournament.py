@@ -55,12 +55,9 @@ def registerPlayer(name):
     """
     DB = connect()
     c = DB.cursor()
-    query = "INSERT INTO players (name) VALUES('%s');" %name
-    c.execute(query)
+    c.execute("INSERT INTO players (name) VALUES (%s) ", (name,))
     DB.commit()
     DB.close()
-
-# registerPlayer('ani')
 
 def playerStandings():
     """Returns a list of the players and their win records, sorted by wins.
@@ -147,15 +144,10 @@ def reportMatch(winner, loser):
     """
     DB = connect()
     c = DB.cursor()
-    # c.execute("INSERT INTO posts (content) VALUES (%s) ", (bleach.clean(content),))
     query = "INSERT INTO matches (winner, loser) VALUES(%s, %s);" %(winner, loser)
-    # print query
     c.execute(query)
     DB.commit()
     DB.close()
-
-# reportMatch(1, 2)
-
 
 
 def swissPairings():
