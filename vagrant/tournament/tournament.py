@@ -55,7 +55,8 @@ def registerPlayer(name):
     """
     DB = connect()
     c = DB.cursor()
-    c.execute("INSERT INTO players (name) VALUES (%s) ", (name,))
+    # cleaned the user input by bleach to avoid sql queries
+    c.execute("INSERT INTO players (name) VALUES (%s) ", (bleach.clean(name),))
     DB.commit()
     DB.close()
 
