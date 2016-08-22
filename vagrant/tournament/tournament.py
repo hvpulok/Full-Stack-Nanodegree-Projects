@@ -131,11 +131,6 @@ def playerStandings():
     DB.close()
     return results
 
-# results = playerStandings()
-# for item in results:
-#     print item
-#     print "\n"
-
 def reportMatch(winner, loser):
     """Records the outcome of a single match between two players.
 
