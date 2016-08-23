@@ -8,6 +8,9 @@
 * run the vagrant in the cmd terminal inside vagrant folder using : "vagrant up"
 * Then login to vagrant machine using : "vagrant ssh"
 * Then go into the Tournament folder using: "cd /vagrant/tournament"
+* Then to create tournament database schema turn on psql cmd using: "psql"
+* Then create tournament database schema using: "\i tournament.sql"
+* Then exit psql cmd using : "\q"
 * Then run the "tournament_test.py" script using : "python tournament_test.py"
 * It should test all the functions and say "Success!  All tests pass!"
 

@@ -1,10 +1,8 @@
 -- code to create a tournament database
 DROP DATABASE IF EXISTS tournament;
-DROP TABLE IF EXISTS matches;
-DROP TABLE IF EXISTS players;
-
 
 CREATE DATABASE tournament;
+\c tournament;
 
 -- create players table
 CREATE TABLE players(                                                                                                                             
@@ -17,33 +15,33 @@ CREATE TABLE matches(
         winner INT NOT NULL REFERENCES players(playerid),
         loser INT NOT NULL REFERENCES players(playerid));
 
--- sample players data
--- ==========================
+-- -- sample players data
+-- -- ==========================
 
-INSERT INTO players (name) VALUES('Pulok');
-INSERT INTO players (name) VALUES('Anika');
-INSERT INTO players (name) VALUES('Akib');
-INSERT INTO players (name) VALUES('Rajib');
-INSERT INTO players (name) VALUES('Tony');
-INSERT INTO players (name) VALUES('Mike');
-INSERT INTO players (name) VALUES('Sara');
-INSERT INTO players (name) VALUES('Jeny');
+-- INSERT INTO players (name) VALUES('Pulok');
+-- INSERT INTO players (name) VALUES('Anika');
+-- INSERT INTO players (name) VALUES('Akib');
+-- INSERT INTO players (name) VALUES('Rajib');
+-- INSERT INTO players (name) VALUES('Tony');
+-- INSERT INTO players (name) VALUES('Mike');
+-- INSERT INTO players (name) VALUES('Sara');
+-- INSERT INTO players (name) VALUES('Jeny');
 
 
--- sample matches data
--- ==========================
+-- -- sample matches data
+-- -- ==========================
 
-INSERT INTO matches (winner, loser) VALUES(1, 2);
-INSERT INTO matches (winner, loser) VALUES(3, 4);
-INSERT INTO matches (winner, loser) VALUES(5, 6);
-INSERT INTO matches (winner, loser) VALUES(7, 8);
+-- INSERT INTO matches (winner, loser) VALUES(1, 2);
+-- INSERT INTO matches (winner, loser) VALUES(3, 4);
+-- INSERT INTO matches (winner, loser) VALUES(5, 6);
+-- INSERT INTO matches (winner, loser) VALUES(7, 8);
 
--- 2nd round
+-- -- 2nd round
 
-INSERT INTO matches (winner, loser) VALUES(1, 3);
-INSERT INTO matches (winner, loser) VALUES(5, 7);
-INSERT INTO matches (winner, loser) VALUES(2, 4);
-INSERT INTO matches (winner, loser) VALUES(6, 8);
+-- INSERT INTO matches (winner, loser) VALUES(1, 3);
+-- INSERT INTO matches (winner, loser) VALUES(5, 7);
+-- INSERT INTO matches (winner, loser) VALUES(2, 4);
+-- INSERT INTO matches (winner, loser) VALUES(6, 8);
 
 
 -- SELECT * FROM players;
@@ -151,11 +149,11 @@ SELECT * FROM player_group_even;
 -- code to retrieve swiss pairs
 SELECT * FROM swiss_pairs;
 
-DROP VIEW IF EXISTS swiss_pairs;
-DROP VIEW IF EXISTS player_group_even;
-DROP VIEW IF EXISTS player_group_odd;
-DROP VIEW IF EXISTS player_standings;
-DROP VIEW IF EXISTS summury_table;
-DROP VIEW IF EXISTS total_match_table;
-DROP VIEW IF EXISTS winnerTable;
-DROP VIEW IF EXISTS loserTable;
+-- DROP VIEW IF EXISTS swiss_pairs;
+-- DROP VIEW IF EXISTS player_group_even;
+-- DROP VIEW IF EXISTS player_group_odd;
+-- DROP VIEW IF EXISTS player_standings;
+-- DROP VIEW IF EXISTS summury_table;
+-- DROP VIEW IF EXISTS total_match_table;
+-- DROP VIEW IF EXISTS winnerTable;
+-- DROP VIEW IF EXISTS loserTable;
