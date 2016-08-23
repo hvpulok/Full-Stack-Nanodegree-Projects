@@ -9,13 +9,17 @@ import bleach
 
 def connect():
     """Connect to the PostgreSQL database.  Returns a database connection."""
-    return psycopg2.connect("dbname=tournament")
-
-
+    try:
+        db = psycopg2.connect("dbname=tournament")
+        cursor = db.cursor()
+        return db, cursor
+    except:
+        print ("Error! Database could not be connected")
+    
 def deleteMatches():
     """Remove all the match records from the database."""
-    DB = connect()
-    c = DB.cursor()
+    DB, c  = connect()
+    # c = DB.cursor()
     query = "DELETE FROM matches;"
     c.execute(query)
     DB.commit()
@@ -24,8 +28,7 @@ def deleteMatches():
 
 def deletePlayers():
     """Remove all the player records from the database."""
-    DB = connect()
-    c = DB.cursor()
+    DB, c  = connect()
     query = "DELETE FROM players;"
     c.execute(query)
     DB.commit()
@@ -33,8 +36,7 @@ def deletePlayers():
 
 def countPlayers():
     """Returns the number of players currently registered."""
-    DB = connect()
-    c = DB.cursor()
+    DB, c  = connect()
     query = "SELECT COUNT(name) AS num FROM players;"
     c.execute(query)
     results = c.fetchone()
@@ -53,10 +55,11 @@ def registerPlayer(name):
     Args:
       name: the player's full name (need not be unique).
     """
-    DB = connect()
-    c = DB.cursor()
+    DB, c  = connect()
     # cleaned the user input by bleach to avoid sql queries
-    c.execute("INSERT INTO players (name) VALUES (%s) ", (bleach.clean(name),))
+    query = "INSERT INTO players (name) VALUES (%s);"
+    parameter = (name,)
+    c.execute(query, parameter)
     DB.commit()
     DB.close()
 
@@ -73,8 +76,7 @@ def playerStandings():
         wins: the number of matches the player has won
         matches: the number of matches the player has played
     """
-    DB = connect()
-    c = DB.cursor()
+    DB, c  = connect()
     query = '''
     -- Code to get winner players id name and times won  
     CREATE VIEW winnerTable AS 
@@ -138,10 +140,10 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
-    DB = connect()
-    c = DB.cursor()
-    query = "INSERT INTO matches (winner, loser) VALUES(%s, %s);" %(winner, loser)
-    c.execute(query)
+    DB, c  = connect()
+    query = "INSERT INTO matches (winner, loser) VALUES(%s, %s);"
+    parameter = (winner, loser)
+    c.execute(query, parameter)
     DB.commit()
     DB.close()
 
@@ -162,8 +164,7 @@ def swissPairings():
         name2: the second player's name
     """
 
-    DB = connect()
-    c = DB.cursor()
+    DB, c  = connect()
     query = '''
     -- Code to get winner players id name and times won  
     CREATE VIEW winnerTable AS 
