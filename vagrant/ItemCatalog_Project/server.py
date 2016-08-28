@@ -29,9 +29,10 @@ def showSubjects():
 @app.route('/subjects/<int:subject_id>/')
 @app.route('/subjects/<int:subject_id>/course/')
 def showCourse(subject_id):
+    allSubjects = session.query(Subject).order_by(asc(Subject.name))
     subject = session.query(Subject).filter_by(id = subject_id).one()
     courses = session.query(Course).filter_by(subject_id = subject_id).all()
-    return render_template('courses.html', courses = courses, subject = subject)
+    return render_template('courses.html', courses = courses, subject = subject, allSubjects = allSubjects)
 
 
 # Server host and port definition starts here

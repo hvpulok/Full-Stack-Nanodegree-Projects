@@ -1,37 +1,59 @@
 {% extends "base.html" %} {% block content %} {% include "header.html" %}
 <div class="jumbotron">
-    <h1><span class="glyphicon glyphicon-leaf" aria-hidden="true"></span> Course Catalog App!</h1>
-    <p>Brouse Online Courses</p>
-    <p>
-        <a href="/" class="btn btn-lg btn-success">Explore</a>
-        <a href="/login" class="btn btn-lg btn-success">Login</a>
-        <a href="/signup" class="btn btn-lg btn-success">Signup</a>
-    </p>
+    <div class="container">
+        <h1><span class="glyphicon glyphicon-leaf" aria-hidden="true"></span> Course Catalog App!</h1>
+        <p>Brouse Online Courses</p>
+        <p>
+            <a href="/" class="btn btn-lg btn-success">Explore</a>
+            <a href="/login" class="btn btn-lg btn-success">Login</a>
+            <a href="/signup" class="btn btn-lg btn-success">Signup</a>
+        </p>
+    </div>
 </div>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Courses List of {{subject.name}}</h3>
-    </div>
-    <div class="panel-body">
-        <div class="row">
-            {% for course in courses %}
-            <div class="col-sm-6 col-md-4">
-                
-                <div class="thumbnail">
-                    <img src="http://lorempixel.com/480/480/people/" alt="image">
-                    <div class="caption">
-                        <h4>{{course.name}}</h4>
-                        <p>Author - {{course.author_name}}</p>
-                        <p>Price - {{course.price}}</p>
-                        <p>
-                            <a href="#" class="btn btn-primary" role="button">Show More</a>
-                        </p>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Subjects List</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="list-group">
+                            {% for subject in allSubjects %}
+                            <a href="{{url_for('showCourse', subject_id = subject.id)}}" class="list-group-item">{{subject.name}}</a> {% endfor %}
+                        </div>
                     </div>
                 </div>
-                
-            </div>
-            {% endfor %}
+            </div>            
+        </div>
+        <div class="col-sm-8 col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Courses List of {{subject.name}}</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        {% for course in courses %}
+                        <div class="col-sm-6 col-md-4">
+                            <div class="thumbnail">
+                                <img src="http://lorempixel.com/480/480/people/" alt="image">
+                                <div class="caption">
+                                    <h5><strong>{{course.name}}</strong></h5>
+                                    <p>Author - {{course.author_name}}</p>
+                                    <p>Price - {{course.price}}</p>
+                                    <p>
+                                        <a href="#" class="btn btn-primary" role="button">Show More</a>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>            
         </div>
     </div>
 </div>
