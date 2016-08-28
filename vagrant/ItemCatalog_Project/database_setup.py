@@ -27,7 +27,7 @@ class Subject(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'))
-    # user_name = Column(Integer, ForeignKey('user.name'))
+    user_name = Column(String(250), nullable=False)
     user = relationship(User)
 
     @property
@@ -37,7 +37,7 @@ class Subject(Base):
             'id'                    : self.id,
             'name'                  : self.name,
             'user_id'               : self.user_id,           
-            # 'user_name'             : self.user_name,           
+            'user_name'             : self.user_name,           
        }
 
 
@@ -51,7 +51,7 @@ class Course(Base):
     subject_id = Column(Integer,ForeignKey('subject.id'))
     subject = relationship(Subject)
     user_id = Column(Integer, ForeignKey('user.id'))
-    # author_name = Column(Integer, ForeignKey('user.name'))
+    author_name = Column(String(250), nullable=False)
     user = relationship(User)
 
 
@@ -64,7 +64,7 @@ class Course(Base):
             'description'           : self.description,
             'price'                 : self.price,
             'user_id'               : self.user_id,    
-            # 'author_name'           : self.author_name,    
+            'author_name'           : self.author_name,    
        }
 
 # definition to create database engine
