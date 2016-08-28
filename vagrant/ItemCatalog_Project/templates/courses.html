@@ -11,18 +11,18 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">Subjects List</h3>
+        <h3 class="panel-title">Courses List of {{subject.name}}</h3>
     </div>
     <div class="panel-body">
         <div class="row">
             <div class="list-group">
-                {% for subject in subjects %}
-                <a href="{{url_for('showCourse', subject_id = subject.id)}}" class="list-group-item">{{subject.name}}</a> {% endfor %}
+                {% for course in courses %}
+                    <a href="#" class="list-group-item">{{course.name}}</a> 
+                {% endfor %}
             </div>
         </div>
     </div>
 </div>
-
 
 
 {% endblock %}

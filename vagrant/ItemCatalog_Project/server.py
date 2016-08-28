@@ -25,6 +25,14 @@ def showSubjects():
     # return "Welcome"
 
 
+#Show selected subject's course catalog
+@app.route('/subjects/<int:subject_id>/')
+@app.route('/subjects/<int:subject_id>/course/')
+def showCourse(subject_id):
+    subject = session.query(Subject).filter_by(id = subject_id).one()
+    courses = session.query(Course).filter_by(subject_id = subject_id).all()
+    return render_template('courses.html', courses = courses, subject = subject)
+
 
 # Server host and port definition starts here
 if __name__ == '__main__':
