@@ -49,7 +49,7 @@ class Course(Base):
     description = Column(String(10000))
     price = Column(String(8))
     subject_id = Column(Integer,ForeignKey('subject.id'))
-    subject = relationship(subject)
+    subject = relationship(Subject)
     author_id = Column(Integer, ForeignKey('user.id'))
     author_name = Column(Integer, ForeignKey('user.name'))
     user = relationship(User)
