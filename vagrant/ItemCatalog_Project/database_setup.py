@@ -26,7 +26,7 @@ class Subject(Base):
    
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
-    user_id = Column(Integer, ForeignKey('user.id'))
+    # user_id = Column(Integer, ForeignKey('user.id'))
     user_name = Column(Integer, ForeignKey('user.name'))
     user = relationship(User)
 
@@ -50,7 +50,7 @@ class Course(Base):
     price = Column(String(8))
     subject_id = Column(Integer,ForeignKey('subject.id'))
     subject = relationship(Subject)
-    author_id = Column(Integer, ForeignKey('user.id'))
+    # author_id = Column(Integer, ForeignKey('user.id'))
     author_name = Column(Integer, ForeignKey('user.name'))
     user = relationship(User)
 
