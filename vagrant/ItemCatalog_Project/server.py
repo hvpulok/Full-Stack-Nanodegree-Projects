@@ -20,7 +20,9 @@ session = DBSession()
 @app.route('/')
 @app.route('/subjects/')
 def showSubjects():
-    return "Welcome"
+    subjects = session.query(Subject).order_by(asc(Subject.name))
+    return render_template('subjects.html', subjects = subjects)
+    # return "Welcome"
 
 
 
