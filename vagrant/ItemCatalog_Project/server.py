@@ -297,10 +297,27 @@ def editSubject(subject_id):
     if request.method == 'POST':
         if request.form['name']:
             editSubject.name = request.form['name']
+            session.add(editSubject)
+            session.commit() 
             flash('Subject Successfully Edited %s' % editSubject.name)
             return redirect(url_for('showSubjects'))
     else:
         return render_template('editSubject.html', subject = editSubject)
+
+
+#Delete a subject
+@app.route('/subjects/<int:subject_id>/delete/', methods = ['GET', 'POST'])
+def deleteSubject(subject_id):
+    if 'username' not in login_session:
+        return redirect('/login')
+    subjectToDelete = session.query(Subject).filter_by(id = subject_id).one()
+    if request.method == 'POST':
+        session.delete(subjectToDelete)
+        flash('%s Successfully Deleted' % subjectToDelete.name)
+        session.commit()
+        return redirect(url_for('showSubjects'))
+    else:
+        return render_template('deleteSubject.html',subject = subjectToDelete)
 
 
 #Show selected subject's course catalog
