@@ -1,7 +1,7 @@
 # This file defines server side definitions
 from flask import Flask, render_template, request, redirect,jsonify, url_for, flash
 from flask import session as login_session
-from sqlalchemy import create_engine, asc
+from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Subject, Course, User
 
@@ -265,7 +265,13 @@ def fbdisconnect():
 #Show all subjects in catalog
 @app.route('/')
 def index():
-    return redirect(url_for('showSubjects'))
+    if 'user_id' in login_session:
+        user_id = login_session['user_id']
+    else:
+        user_id = ""
+    allSubjects = session.query(Subject).order_by(asc(Subject.name))
+    allcourses = session.query(Course).order_by(desc(Course.id))
+    return render_template('index.html', courses = allcourses, subjects = allSubjects, user_id=user_id)
 
 @app.route('/subjects/')
 def showSubjects():
