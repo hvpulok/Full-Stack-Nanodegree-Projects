@@ -358,6 +358,33 @@ def courseDetails(subject_id, course_id):
     return render_template('courseDetails.html', subject = subject, selectedCourse = selectedCourse,courses = allCourses, allSubjects = allSubjects, user_id=user_id)
 
 
+#Add new course
+@app.route('/subjects/<int:subject_id>/course/new/', methods=['GET','POST'])
+def newCourse(subject_id):
+    if 'user_id' in login_session:
+        user_id = login_session['user_id']
+        author_name = login_session['username']
+    else:
+        return redirect('/login')
+    allSubjects = session.query(Subject).order_by(asc(Subject.name))
+    allCourses = session.query(Course).filter_by(subject_id = subject_id).all()
+    subject = session.query(Subject).filter_by(id = subject_id).one()
+
+    if request.method == 'POST':
+        newCourse = Course(name = request.form['name'], 
+                            description = request.form['description'], 
+                            price = request.form['price'], 
+                            subject_id = subject_id, 
+                            author_name = author_name,
+                            user_id = user_id)
+        session.add(newCourse)
+        session.commit()
+        flash('New Course "%s" Successfully Created' % (newCourse.name))
+        return redirect(url_for('showCourse', subject_id = subject_id))        
+    else:
+        return render_template('newCourse.html', subject = subject, courses = allCourses, allSubjects = allSubjects, user_id=user_id)
+
+
 #edit selected course's details
 @app.route('/subjects/<int:subject_id>/course/<int:course_id>/edit', methods=['GET','POST'])
 def editCourse(subject_id, course_id):
