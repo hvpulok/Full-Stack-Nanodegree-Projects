@@ -297,6 +297,10 @@ def editSubject(subject_id):
     if 'username' not in login_session:
         return redirect('/login')
     editSubject = session.query(Subject).filter_by(id = subject_id).one()
+    if 'user_id' in login_session:
+        user_id = login_session['user_id']
+        if (user_id != editSubject.user_id) : 
+            return redirect('/login')
     if request.method == 'POST':
         if request.form['name']:
             editSubject.name = request.form['name']
@@ -314,6 +318,10 @@ def deleteSubject(subject_id):
     if 'username' not in login_session:
         return redirect('/login')
     subjectToDelete = session.query(Subject).filter_by(id = subject_id).one()
+    if 'user_id' in login_session:
+        user_id = login_session['user_id']
+        if (user_id != subjectToDelete.user_id) : 
+            return redirect('/login')
     if request.method == 'POST':
         session.delete(subjectToDelete)
         flash('%s Successfully Deleted' % subjectToDelete.name)
