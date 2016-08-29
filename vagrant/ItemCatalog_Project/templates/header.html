@@ -17,10 +17,26 @@
                 <li><a href="/"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Show Subjects</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+                {%if 'username' not in session %}
                 <li><a href="/login"><i class="fa fa-user" aria-hidden="true"></i> Login</a></li>
-                <li><a href="/signup"><i class="fa fa-user-plus" aria-hidden="true"></i> Sign Up</a></li>
+                <!--<li><a href="/signup"><i class="fa fa-user-plus" aria-hidden="true"></i> Sign Up</a></li>-->
+                {% else %}
+                <!--<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i> Logged In as {{username}}</a></li>-->
+                <li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>
 </nav>
+{% with messages = get_flashed_messages() %} {% if messages %}
+<div class="container">
+    <div class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <ul>
+            {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %} {% endwith %}
