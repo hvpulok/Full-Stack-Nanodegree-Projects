@@ -26,12 +26,22 @@
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
         <div class="col-sm-8 col-md-9">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Courses List of {{subject.name}}</h3>
+                    <h3 class="panel-title">
+                        <div class="row">
+                            <div class="col-md-9">
+                                Courses List of {{subject.name}}
+                            </div>
+                            <div class="col-md-3 text-right">
+                                <a class="btn btn-xs btn-warning" href="{{url_for('editSubject',subject_id = subject.id)}}" role="button">Edit</a>
+                                <a class="btn btn-xs btn-danger" href="#" role="button">Delete</a>
+                            </div> 
+                        </div>  
+                    </h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -48,12 +58,11 @@
                                     </p>
                                 </div>
                             </div>
-                            
                         </div>
                         {% endfor %}
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
 </div>

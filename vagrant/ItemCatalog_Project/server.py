@@ -288,6 +288,21 @@ def newSubject():
         return render_template('newSubject.html')
 
 
+#Edit a subject
+@app.route('/subjects/<int:subject_id>/edit/', methods = ['GET', 'POST'])
+def editSubject(subject_id):
+    if 'username' not in login_session:
+        return redirect('/login')
+    editSubject = session.query(Subject).filter_by(id = subject_id).one()
+    if request.method == 'POST':
+        if request.form['name']:
+            editSubject.name = request.form['name']
+            flash('Subject Successfully Edited %s' % editSubject.name)
+            return redirect(url_for('showSubjects'))
+    else:
+        return render_template('editSubject.html', subject = editSubject)
+
+
 #Show selected subject's course catalog
 @app.route('/subjects/<int:subject_id>/')
 @app.route('/subjects/<int:subject_id>/course/')
