@@ -14,7 +14,11 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="/"><i class="fa fa-th-large" aria-hidden="true"></i> Home</a></li>
-                <li><a href="/"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Show Subjects</a></li>
+                <li><a href="/">Show Subjects</a></li>
+                {%if 'username' in session %}
+                    <li><a href="/subjects/new/"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Subject</a></li>
+                {% endif %}
+
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {%if 'username' not in session %}

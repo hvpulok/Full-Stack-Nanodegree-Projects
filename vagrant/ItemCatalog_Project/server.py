@@ -271,6 +271,23 @@ def showSubjects():
     # return "Welcome"
 
 
+#Create a new subject
+@app.route('/subjects/new/', methods=['GET','POST'])
+def newSubject():
+    if 'username' not in login_session:
+        return redirect('/login')
+    if request.method == 'POST':
+        newSubject = Subject(name = request.form['name'],
+                                    user_id = login_session['user_id'],
+                                    user_name = login_session['username'])
+        session.add(newSubject)
+        flash('New Subject "%s" Successfully Created' % newSubject.name)
+        session.commit()
+        return redirect(url_for('showSubjects'))
+    else:
+        return render_template('newSubject.html')
+
+
 #Show selected subject's course catalog
 @app.route('/subjects/<int:subject_id>/')
 @app.route('/subjects/<int:subject_id>/course/')
