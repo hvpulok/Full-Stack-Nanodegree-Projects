@@ -358,6 +358,36 @@ def courseDetails(subject_id, course_id):
     return render_template('courseDetails.html', subject = subject, selectedCourse = selectedCourse,courses = allCourses, allSubjects = allSubjects, user_id=user_id)
 
 
+#edit selected course's details
+@app.route('/subjects/<int:subject_id>/course/<int:course_id>/edit', methods=['GET','POST'])
+def editCourse(subject_id, course_id):
+    editedCourse = session.query(Course).filter_by(id = course_id).one()
+    if 'user_id' in login_session:
+        user_id = login_session['user_id']
+        if (user_id != editedCourse.user_id) : 
+            return redirect('/login')
+    else:
+        return redirect('/login')
+    allSubjects = session.query(Subject).order_by(asc(Subject.name))
+    allCourses = session.query(Course).filter_by(subject_id = subject_id).all()
+    subject = session.query(Subject).filter_by(id = subject_id).one()
+
+    if request.method == 'POST':
+        if request.form['name']:
+            editedCourse.name = request.form['name']
+        if request.form['description']:
+            editedCourse.description = request.form['description']
+        if request.form['price']:
+            editedCourse.price = request.form['price']
+        session.add(editedCourse)
+        session.commit() 
+        flash('Selected Course Successfully Updated')
+        return redirect(url_for('courseDetails', subject_id = subject_id, course_id=course_id))
+    else:
+        return render_template('editCourse.html', subject = subject, selectedCourse = editedCourse,courses = allCourses, allSubjects = allSubjects, user_id=user_id)
+
+    
+
 
 
 

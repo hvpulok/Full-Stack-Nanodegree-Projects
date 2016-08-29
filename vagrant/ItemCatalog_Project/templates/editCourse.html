@@ -1,0 +1,67 @@
+{% extends "base.html" %} {% block content %} {% include "header.html" %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{subject.name}}</h3>
+                    <h3 class="panel-title">Related Courses</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="list-group">
+                            {% for course in courses %}
+                            <a href="{{url_for('courseDetails', subject_id = subject.id, course_id=course.id)}}" class="list-group-item">{{course.name}}</a> {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8 col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        "{{selectedCourse.name}}" Edit Page
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form action="{{url_for('editCourse',subject_id = subject.id, course_id = selectedCourse.id)}}" method="POST" class="form-horizontal">
+                        <div class="form-group ">
+                            <label class="col-sm-2 control-label" for="formGroupInputLarge">Course Name</label>
+                            <div class="col-sm-10">
+                                <input name="name" class="form-control" type="text" id="name" placeholder="name" autofocus required value="{{selectedCourse.name}}">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-sm-2 control-label" for="formGroupInputLarge">Price</label>
+                            <div class="col-sm-10">
+                                <input name="price" class="form-control" type="text" id="price" placeholder="price" autofocus required value="{{selectedCourse.price}}">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-sm-2 control-label" for="formGroupInputLarge">Description</label>
+                            <div class="col-sm-10">
+                                <textarea name="description" class="form-control" rows="20">{{selectedCourse.description}}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10 error">
+                                {{error}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-success">Update</button>
+                                <a class="btn btn-warning" href="{{url_for('courseDetails',subject_id = subject.id, course_id = selectedCourse.id)}}">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
