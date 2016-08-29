@@ -264,6 +264,9 @@ def fbdisconnect():
 
 #Show all subjects in catalog
 @app.route('/')
+def index():
+    return redirect(url_for('showSubjects'))
+
 @app.route('/subjects/')
 def showSubjects():
     subjects = session.query(Subject).order_by(asc(Subject.name))
@@ -321,7 +324,7 @@ def deleteSubject(subject_id):
 
 
 #Show selected subject's course catalog
-@app.route('/subjects/<int:subject_id>/')
+# @app.route('/subjects/<int:subject_id>/')
 @app.route('/subjects/<int:subject_id>/course/')
 def showCourse(subject_id):
     allSubjects = session.query(Subject).order_by(asc(Subject.name))
