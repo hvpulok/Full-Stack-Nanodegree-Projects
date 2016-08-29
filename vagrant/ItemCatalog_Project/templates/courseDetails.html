@@ -16,13 +16,14 @@
         <div class="col-sm-4 col-md-3">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Subjects List</h3>
+                    <h3 class="panel-title">{{subject.name}}</h3>
+                    <h3 class="panel-title">Related Courses</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="list-group">
-                            {% for subject in allSubjects %}
-                            <a href="{{url_for('showCourse', subject_id = subject.id)}}" class="list-group-item">{{subject.name}}</a> {% endfor %}
+                            {% for course in courses %}
+                            <a href="{{url_for('courseDetails', subject_id = subject.id, course_id=course.id)}}" class="list-group-item">{{course.name}}</a> {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -34,7 +35,7 @@
                     <h3 class="panel-title">
                         <div class="row">
                             <div class="col-md-9">
-                                Courses List of {{subject.name}}
+                                Details of {{selectedCourse.name}}
                             </div>
                             <div class="col-md-3 text-right">
                                 <a class="btn btn-xs btn-warning" href="{{url_for('editSubject',subject_id = subject.id)}}" role="button">Edit</a>
@@ -44,23 +45,16 @@
                     </h3>
                 </div>
                 <div class="panel-body">
+                    <img class="img-responsive" src="http://lorempixel.com/1024/480/people/" alt="">
                     <div class="row">
-                        {% for course in courses %}
-                        <div class="col-sm-6 col-md-4">
-                            <div class="thumbnail">
-                                <img src="http://lorempixel.com/480/480/people/" alt="image">
-                                <div class="caption">
-                                    <h5><strong>{{course.name}}</strong></h5>
-                                    <p>Author - {{course.author_name}}</p>
-                                    <p>Price - {{course.price}}</p>
-                                    <p>
-                                        <a href="{{url_for('courseDetails',subject_id = subject.id, course_id=course.id)}}" class="btn btn-primary" role="button">Show More</a>
-                                    </p>
-                                </div>
-                            </div>
+                        <div class="col-md-6">
+                            <h4>{{selectedCourse.name}}</h4>
                         </div>
-                        {% endfor %}
+                        <div class="col-md-6">
+                            <h4 class="text-right">Author - {{selectedCourse.author_name}}, Price: {{selectedCourse.price}}</h4>
+                        </div>
                     </div>
+                    <p class="text-justify">{{selectedCourse.description}}</p>
                 </div>
             </div>
         </div>

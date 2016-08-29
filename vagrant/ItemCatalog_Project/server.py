@@ -323,7 +323,7 @@ def deleteSubject(subject_id):
         return render_template('deleteSubject.html',subject = subjectToDelete)
 
 
-#Show selected subject's course catalog
+#Show selected subject's all course catalog
 # @app.route('/subjects/<int:subject_id>/')
 @app.route('/subjects/<int:subject_id>/course/')
 def showCourse(subject_id):
@@ -331,6 +331,17 @@ def showCourse(subject_id):
     subject = session.query(Subject).filter_by(id = subject_id).one()
     courses = session.query(Course).filter_by(subject_id = subject_id).all()
     return render_template('courses.html', courses = courses, subject = subject, allSubjects = allSubjects)
+
+#Show selected course's details
+@app.route('/subjects/<int:subject_id>/course/<int:course_id>')
+def courseDetails(subject_id, course_id):
+    allSubjects = session.query(Subject).order_by(asc(Subject.name))
+    allCourses = session.query(Course).filter_by(subject_id = subject_id).all()
+    selectedCourse = session.query(Course).filter_by(id = course_id).one()
+    subject = session.query(Subject).filter_by(id = subject_id).one()
+    return render_template('courseDetails.html', subject = subject, selectedCourse = selectedCourse,courses = allCourses, allSubjects = allSubjects)
+
+
 
 
 
