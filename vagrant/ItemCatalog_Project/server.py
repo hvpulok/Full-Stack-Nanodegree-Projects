@@ -31,8 +31,8 @@ def showLogin():
     state = ''.join(random.choice(string.ascii_uppercase + string.digits)
                     for x in xrange(32))
     login_session['state'] = state
-    # return "The current session state is %s" % login_session['state']
-    return render_template('login.html', STATE=state)
+    # return render_template('login.html', STATE=state)
+    return render_template('login_v2.html', STATE=state)
 
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
@@ -267,16 +267,22 @@ def fbdisconnect():
 def index():
     if 'user_id' in login_session:
         user_id = login_session['user_id']
+        username = login_session['username']
     else:
         user_id = ""
+        username = ""
     allSubjects = session.query(Subject).order_by(asc(Subject.name))
     allcourses = session.query(Course).order_by(desc(Course.id))
-    return render_template('index.html', courses = allcourses, subjects = allSubjects, user_id=user_id)
+    return render_template('index.html', courses = allcourses, subjects = allSubjects, user_id=user_id, username=username)
 
 @app.route('/subjects/')
 def showSubjects():
+    if 'user_id' in login_session:
+        username = login_session['username']
+    else:
+        username = ""
     subjects = session.query(Subject).order_by(asc(Subject.name))
-    return render_template('subjects.html', subjects = subjects)
+    return render_template('subjects.html', subjects = subjects, username=username)
     # return "Welcome"
 
 
@@ -294,7 +300,8 @@ def newSubject():
         session.commit()
         return redirect(url_for('showSubjects'))
     else:
-        return render_template('newSubject.html')
+        username = login_session['username']
+        return render_template('newSubject.html', username=username)
 
 
 #Edit a subject
@@ -305,6 +312,7 @@ def editSubject(subject_id):
     editSubject = session.query(Subject).filter_by(id = subject_id).one()
     if 'user_id' in login_session:
         user_id = login_session['user_id']
+        username = login_session['username']
         if (user_id != editSubject.user_id) : 
             return redirect('/login')
     if request.method == 'POST':
@@ -315,7 +323,8 @@ def editSubject(subject_id):
             flash('Subject Successfully Edited %s' % editSubject.name)
             return redirect(url_for('showSubjects'))
     else:
-        return render_template('editSubject.html', subject = editSubject)
+        username = login_session['username']
+        return render_template('editSubject.html', subject = editSubject, username=username)
 
 
 #Delete a subject
@@ -334,7 +343,8 @@ def deleteSubject(subject_id):
         session.commit()
         return redirect(url_for('showSubjects'))
     else:
-        return render_template('deleteSubject.html',subject = subjectToDelete)
+        username = login_session['username']
+        return render_template('deleteSubject.html',subject = subjectToDelete, username=username)
 
 
 #Show selected subject's all course catalog
@@ -343,25 +353,29 @@ def deleteSubject(subject_id):
 def showCourse(subject_id):
     if 'user_id' in login_session:
         user_id = login_session['user_id']
+        username = login_session['username']
     else:
         user_id = ""
+        username = ""
     allSubjects = session.query(Subject).order_by(asc(Subject.name))
     subject = session.query(Subject).filter_by(id = subject_id).one()
     courses = session.query(Course).filter_by(subject_id = subject_id).all()
-    return render_template('courses.html', courses = courses, subject = subject, allSubjects = allSubjects, user_id=user_id)
+    return render_template('courses.html', courses = courses, subject = subject, allSubjects = allSubjects, user_id=user_id, username=username)
 
 #Show selected course's details
 @app.route('/subjects/<int:subject_id>/course/<int:course_id>')
 def courseDetails(subject_id, course_id):
     if 'user_id' in login_session:
         user_id = login_session['user_id']
+        username = login_session['username']
     else:
         user_id = ""
+        username = ""
     allSubjects = session.query(Subject).order_by(asc(Subject.name))
     allCourses = session.query(Course).filter_by(subject_id = subject_id).all()
     selectedCourse = session.query(Course).filter_by(id = course_id).one()
     subject = session.query(Subject).filter_by(id = subject_id).one()
-    return render_template('courseDetails.html', subject = subject, selectedCourse = selectedCourse,courses = allCourses, allSubjects = allSubjects, user_id=user_id)
+    return render_template('courseDetails.html', subject = subject, selectedCourse = selectedCourse,courses = allCourses, allSubjects = allSubjects, user_id=user_id, username=username)
 
 
 #Add new course
@@ -388,7 +402,7 @@ def newCourse(subject_id):
         flash('New Course "%s" Successfully Created' % (newCourse.name))
         return redirect(url_for('showCourse', subject_id = subject_id))        
     else:
-        return render_template('newCourse.html', subject = subject, courses = allCourses, allSubjects = allSubjects, user_id=user_id)
+        return render_template('newCourse.html', subject = subject, courses = allCourses, allSubjects = allSubjects, user_id=user_id, username=author_name)
 
 
 #edit selected course's details
@@ -397,6 +411,7 @@ def editCourse(subject_id, course_id):
     editedCourse = session.query(Course).filter_by(id = course_id).one()
     if 'user_id' in login_session:
         user_id = login_session['user_id']
+        username = login_session['username']
         if (user_id != editedCourse.user_id) : 
             return redirect('/login')
     else:
@@ -417,7 +432,8 @@ def editCourse(subject_id, course_id):
         flash('Selected Course Successfully Updated')
         return redirect(url_for('courseDetails', subject_id = subject_id, course_id=course_id))
     else:
-        return render_template('editCourse.html', subject = subject, selectedCourse = editedCourse,courses = allCourses, allSubjects = allSubjects, user_id=user_id)
+        username = login_session['username']
+        return render_template('editCourse.html', subject = subject, selectedCourse = editedCourse,courses = allCourses, allSubjects = allSubjects, user_id=user_id, username = username)
 
     
 #Delete selected Course
@@ -426,6 +442,7 @@ def deleteCourse(subject_id, course_id):
     deleteCourse = session.query(Course).filter_by(id = course_id).one()
     if 'user_id' in login_session:
         user_id = login_session['user_id']
+        username = login_session['username']
         if (user_id != deleteCourse.user_id) : 
             return redirect('/login')
     else:
@@ -436,7 +453,8 @@ def deleteCourse(subject_id, course_id):
         flash('Selected Course Successfully Deleted')
         return redirect(url_for('showCourse', subject_id = subject_id))
     else:
-        return render_template('deleteCourse.html', subject_id = subject_id, deleteCourse = deleteCourse)
+        username = login_session['username']
+        return render_template('deleteCourse.html', subject_id = subject_id, deleteCourse = deleteCourse, username = username)
 
 
 
