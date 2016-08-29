@@ -456,10 +456,10 @@ def disconnect():
             del login_session['user_id']
             del login_session['provider']
         flash("You have successfully been logged out.")
-        return redirect(url_for('showSubjects'))
+        return redirect(url_for('index'))
     else:
         flash("You were not logged in")
-        return redirect(url_for('showSubjects'))
+        return redirect(url_for('index'))
 
 # Server host and port definition starts here
 if __name__ == '__main__':
