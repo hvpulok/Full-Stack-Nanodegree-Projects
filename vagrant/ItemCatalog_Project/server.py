@@ -327,19 +327,27 @@ def deleteSubject(subject_id):
 # @app.route('/subjects/<int:subject_id>/')
 @app.route('/subjects/<int:subject_id>/course/')
 def showCourse(subject_id):
+    if 'user_id' in login_session:
+        user_id = login_session['user_id']
+    else:
+        user_id = ""
     allSubjects = session.query(Subject).order_by(asc(Subject.name))
     subject = session.query(Subject).filter_by(id = subject_id).one()
     courses = session.query(Course).filter_by(subject_id = subject_id).all()
-    return render_template('courses.html', courses = courses, subject = subject, allSubjects = allSubjects)
+    return render_template('courses.html', courses = courses, subject = subject, allSubjects = allSubjects, user_id=user_id)
 
 #Show selected course's details
 @app.route('/subjects/<int:subject_id>/course/<int:course_id>')
 def courseDetails(subject_id, course_id):
+    if 'user_id' in login_session:
+        user_id = login_session['user_id']
+    else:
+        user_id = ""
     allSubjects = session.query(Subject).order_by(asc(Subject.name))
     allCourses = session.query(Course).filter_by(subject_id = subject_id).all()
     selectedCourse = session.query(Course).filter_by(id = course_id).one()
     subject = session.query(Subject).filter_by(id = subject_id).one()
-    return render_template('courseDetails.html', subject = subject, selectedCourse = selectedCourse,courses = allCourses, allSubjects = allSubjects)
+    return render_template('courseDetails.html', subject = subject, selectedCourse = selectedCourse,courses = allCourses, allSubjects = allSubjects, user_id=user_id)
 
 
 

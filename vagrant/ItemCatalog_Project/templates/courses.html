@@ -34,11 +34,13 @@
                     <h3 class="panel-title">
                         <div class="row">
                             <div class="col-md-9">
-                                Courses List of {{subject.name}}
+                                Courses List of {{subject.name}} - User Id: {{subject.user_id}}
                             </div>
                             <div class="col-md-3 text-right">
-                                <a class="btn btn-xs btn-warning" href="{{url_for('editSubject',subject_id = subject.id)}}" role="button">Edit</a>
-                                <a class="btn btn-xs btn-danger" href="{{url_for('deleteSubject',subject_id = subject.id)}}" role="button">Delete</a>
+                                {% if (user_id == subject.user_id) : %}
+                                    <a class="btn btn-xs btn-warning" href="{{url_for('editSubject',subject_id = subject.id)}}" role="button">Edit</a>
+                                    <a class="btn btn-xs btn-danger" href="{{url_for('deleteSubject',subject_id = subject.id)}}" role="button">Delete</a>
+                                {% endif %}
                             </div> 
                         </div>  
                     </h3>
