@@ -40,7 +40,7 @@
                             <div class="col-md-3 text-right">
                                 {% if (user_id == selectedCourse.user_id) : %}
                                     <a class="btn btn-xs btn-warning" href="{{url_for('editCourse',subject_id = subject.id, course_id=selectedCourse.id)}}" role="button">Edit</a>
-                                    <a class="btn btn-xs btn-danger" href="{{url_for('deleteSubject',subject_id = subject.id)}}" role="button">Delete</a>
+                                    <a class="btn btn-xs btn-danger" href="{{url_for('deleteCourse',subject_id = subject.id, course_id=selectedCourse.id)}}" role="button">Delete</a>
                                 {% endif %}
                             </div> 
                         </div>  

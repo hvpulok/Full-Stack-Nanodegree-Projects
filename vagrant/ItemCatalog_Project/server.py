@@ -414,7 +414,23 @@ def editCourse(subject_id, course_id):
         return render_template('editCourse.html', subject = subject, selectedCourse = editedCourse,courses = allCourses, allSubjects = allSubjects, user_id=user_id)
 
     
-
+#Delete selected Course
+@app.route('/subjects/<int:subject_id>/course/<int:course_id>/delete', methods = ['GET','POST'])
+def deleteCourse(subject_id, course_id):
+    deleteCourse = session.query(Course).filter_by(id = course_id).one()
+    if 'user_id' in login_session:
+        user_id = login_session['user_id']
+        if (user_id != deleteCourse.user_id) : 
+            return redirect('/login')
+    else:
+        return redirect('/login')
+    if request.method == 'POST':
+        session.delete(deleteCourse)
+        session.commit()
+        flash('Selected Course Successfully Deleted')
+        return redirect(url_for('showCourse', subject_id = subject_id))
+    else:
+        return render_template('deleteCourse.html', subject_id = subject_id, deleteCourse = deleteCourse)
 
 
 
