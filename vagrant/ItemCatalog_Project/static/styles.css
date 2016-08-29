@@ -1,3 +1,8 @@
 .thumbnail{
     min-height: 200px;
 }
+
+.jumbotron{
+    text-align: center;
+
+}
