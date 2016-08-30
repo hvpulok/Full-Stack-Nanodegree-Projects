@@ -16,7 +16,7 @@ import requests
 app = Flask(__name__)
 
 CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
-APPLICATION_NAME = "Restaurant Menu Application"
+APPLICATION_NAME = "Course Catalog"
 
 #Connect to Database and create database session
 engine = create_engine('sqlite:///course_catalog.db')
@@ -92,7 +92,6 @@ def gconnect():
         return response
 
     # Store the access token in the session for later use.
-    login_session['credentials'] = credentials
     login_session['gplus_id'] = gplus_id
 
     # Get user info
@@ -289,7 +288,7 @@ def allCoursesJSON():
 #Show all subjects in catalog
 @app.route('/')
 def index():
-    if 'user_id' in login_session:
+    if 'username' in login_session:
         user_id = login_session['user_id']
         username = login_session['username']
     else:
@@ -488,7 +487,7 @@ def disconnect():
     if 'provider' in login_session:
         if login_session['provider'] == 'google':
             value = gdisconnect()
-            del login_session['credentials']
+            # del login_session['credentials']
         if login_session['provider'] == 'facebook':
             fbdisconnect()
             del login_session['facebook_id']

@@ -12,11 +12,21 @@
         <h1>Login Using your Google or Facebook Profile!</h1>
         <!-- GOOGLE PLUS SIGN IN BUTTON-->
         <div id="signInButton">
-                <span class="g-signin" data-scope="openid email" data-clientid="648647002122-rcr3jpr405hpoi9sbaacd88fefbds53a.apps.googleusercontent.com" data-redirecturi="postmessage" data-accesstype="offline" data-cookiepolicy="single_host_origin" data-callback="signInCallback"
-                    data-approvalprompt="force">
-                </span>
+            <span class="g-signin" 
+                data-scope="openid email" 
+                data-clientid="439547133771-9fpufla1dt4lg2nnuk4m3gglg5h736o2.apps.googleusercontent.com" 
+                data-redirecturi="postmessage" 
+                data-accesstype="offline" 
+                data-cookiepolicy="single_host_origin" 
+                data-callback="signInCallback"
+                data-approvalprompt="force">
+            </span>
         </div>
-
+        <button class="btn btn-sm btn-info">
+            <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
+                <a href="javascript:sendTokenToServer()">Login with Facebook</a>
+            </fb:login-button>
+        </button>
         <div id="result"></div>
 
         <script>
@@ -37,7 +47,7 @@
                                 $('#result').html('Login Successful!</br>' + result + '</br>Redirecting...')
                                 setTimeout(function() {
                                     window.location.href = "/";
-                                }, 1000);
+                                }, 4000);
 
                             } else if (authResult['error']) {
                                 console.log('There was an error: ' + authResult['error']);
@@ -107,11 +117,7 @@
         </script>
 
 
-        <button class="btn btn-sm btn-info">
-            <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
-                <a href="javascript:sendTokenToServer()">Login with Facebook</a>
-            </fb:login-button>
-        </button>
+
         <!--END FACEBOOK SIGN IN -->
 
 
