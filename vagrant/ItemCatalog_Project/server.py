@@ -260,11 +260,23 @@ def fbdisconnect():
     return "you have been logged out"
 
 
+#JSON APIs to view all subjects Information
 @app.route('/subjects/json')
 def subjectsJSON():
     subjects = session.query(Subject).all()
     return jsonify(subjects= [r.serialize for r in subjects])
 
+#JSON APIs to view all Courses for a selected subject
+@app.route('/subjects/<int:subject_id>/json')
+def selectedCourseJSON(subject_id):
+    courses = session.query(Course).filter_by(subject_id = subject_id).all()
+    return jsonify(subjects= [r.serialize for r in courses])
+
+#JSON APIs to view all Courses in dB
+@app.route('/courses/json')
+def allCoursesJSON():
+    courses = session.query(Course).all()
+    return jsonify(subjects= [r.serialize for r in courses])
 
 
 #Show all subjects in catalog
