@@ -32,7 +32,7 @@ def showLogin():
                     for x in xrange(32))
     login_session['state'] = state
     # return render_template('login.html', STATE=state)
-    return render_template('login_v2.html', STATE=state)
+    return render_template('login.html', STATE=state)
 
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
