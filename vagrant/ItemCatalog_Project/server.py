@@ -300,7 +300,7 @@ def index():
 
 @app.route('/subjects/')
 def showSubjects():
-    if 'user_id' in login_session:
+    if 'username' in login_session:
         username = login_session['username']
     else:
         username = ""
@@ -374,7 +374,7 @@ def deleteSubject(subject_id):
 # @app.route('/subjects/<int:subject_id>/')
 @app.route('/subjects/<int:subject_id>/course/')
 def showCourse(subject_id):
-    if 'user_id' in login_session:
+    if 'username' in login_session:
         user_id = login_session['user_id']
         username = login_session['username']
     else:
@@ -388,7 +388,7 @@ def showCourse(subject_id):
 #Show selected course's details
 @app.route('/subjects/<int:subject_id>/course/<int:course_id>')
 def courseDetails(subject_id, course_id):
-    if 'user_id' in login_session:
+    if 'username' in login_session:
         user_id = login_session['user_id']
         username = login_session['username']
     else:
@@ -404,7 +404,7 @@ def courseDetails(subject_id, course_id):
 #Add new course
 @app.route('/subjects/<int:subject_id>/course/new/', methods=['GET','POST'])
 def newCourse(subject_id):
-    if 'user_id' in login_session:
+    if 'username' in login_session:
         user_id = login_session['user_id']
         author_name = login_session['username']
     else:
@@ -432,7 +432,7 @@ def newCourse(subject_id):
 @app.route('/subjects/<int:subject_id>/course/<int:course_id>/edit', methods=['GET','POST'])
 def editCourse(subject_id, course_id):
     editedCourse = session.query(Course).filter_by(id = course_id).one()
-    if 'user_id' in login_session:
+    if 'username' in login_session:
         user_id = login_session['user_id']
         username = login_session['username']
         if (user_id != editedCourse.user_id) : 
@@ -463,7 +463,7 @@ def editCourse(subject_id, course_id):
 @app.route('/subjects/<int:subject_id>/course/<int:course_id>/delete', methods = ['GET','POST'])
 def deleteCourse(subject_id, course_id):
     deleteCourse = session.query(Course).filter_by(id = course_id).one()
-    if 'user_id' in login_session:
+    if 'username' in login_session:
         user_id = login_session['user_id']
         username = login_session['username']
         if (user_id != deleteCourse.user_id) : 
