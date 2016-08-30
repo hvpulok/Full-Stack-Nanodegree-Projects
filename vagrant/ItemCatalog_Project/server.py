@@ -260,6 +260,11 @@ def fbdisconnect():
     return "you have been logged out"
 
 
+@app.route('/subjects/json')
+def subjectsJSON():
+    subjects = session.query(Subject).all()
+    return jsonify(subjects= [r.serialize for r in subjects])
+
 
 
 #Show all subjects in catalog
