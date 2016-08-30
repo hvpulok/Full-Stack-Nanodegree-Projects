@@ -11,6 +11,15 @@
 * Then run the local server using : "python server.py"
 * The site can be viewed in this link "http://localhost:5000/"
 
+##Tools used in this Project:
+* python
+* Flask
+* sqlAlchemy
+* SQL DB
+* JSON API
+* GOOGLE Login API
+* Facebook Login API
+
 ## Feature Checklist complying Project Rubric:
 * API Endpoints:
     * Does the project implement a JSON endpoint with all required content?
@@ -63,6 +72,10 @@
 * Then exit psql cmd using : "\q"
 * Then run the "tournament_test.py" script using : "python tournament_test.py"
 * It should test all the functions and say "Success!  All tests pass!"
+
+##Tools used in this Project:
+* python
+* postgreSQL
 
 ====================================
 ## Feature Checklist complying Project Rubric:
